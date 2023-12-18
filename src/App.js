@@ -32,9 +32,7 @@ async function SignIn(credentials) {
                 <input value={password} onChange={changePassword} type="password" name="password"/>
                 <button type={"button"} onClick={signInWithEmail(email, password)}>Sign In
                 </button>
-                <button type={"button"} onClick={await supabase.auth.signInWithPassword(email, password)}>Sign in with
-                    supabase
-                </button>
+                <button type={"button"} onClick={() => {signUpNewUser(email, password)}}>Sign up with supabase</button>
             </form>
         </section>
     )
@@ -45,16 +43,19 @@ async function signInWithEmail(email, pass) {
         email: email,
         password: pass
     })
+    console.log(data, error)
 }
+
 
 async function signUpNewUser(email, password) {
     const { data, error } = await supabase.auth.signUp({
-        email: 'example@email.com',
-        password: 'example-password',
+        email: email,
+        password: password,
         options: {
-            emailRedirectTo: 'https//example.com/welcome'
+            emailRedirectTo: 'localhost:3000'
         }
     })
+    console.log(data, error)
 }
 
 
