@@ -10,7 +10,7 @@ let user = await supabase.auth.getUser().then(
 function App() {
   return (
       <section>
-        {user ? <SignIn/> : <SignIn/> }
+        {user ? <Chatroom/> : <SignIn/> }
       </section>
   );
 
