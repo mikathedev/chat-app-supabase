@@ -63,9 +63,26 @@ async function signUpNewUser(email, password) {
 
 
 function Chatroom() {
+    const [chatVal, setChatVal] = useState("")
+    const sendMessage = async (e) => {
+        e.preventDefault()
+        const { data, error } = await supabase.from("messages").insert([{
+            name: user.data.user,
+            content: chatVal
+        }])
+        console.log("data", data, "error", error)
+        setChatVal("")
+    }
+    console.log(user.data.user)
+    /*const getMessages = async () => {
+        supabase.from("messages").select("content").then((res) => {console.log(res)})
+    }*/
     return (
         <div>
             <h1>Chatroom</h1>
+            <p></p>
+            <input onChange={(e) => setChatVal(e.target.value)} value={chatVal}/>
+            <button onClick={sendMessage}>send</button>
             <button onClick={() => signOutUser()}>sign out</button>
         </div>
     );
