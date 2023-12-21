@@ -1,6 +1,6 @@
 import './App.css';
 import { createClient } from '@supabase/supabase-js'
-import { useState } from'react';
+import {useEffect, useState} from 'react';
 
 const supabaseUrl = 'https://wvpnvgvxtecukdoxmbad.supabase.co'
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2cG52Z3Z4dGVjdWtkb3htYmFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI4NDQ0NjcsImV4cCI6MjAxODQyMDQ2N30.JQuhGVAqT1OeSHJAbmECj5Q8iwTqJ4ebYEoeFdsNQb8"
@@ -64,6 +64,11 @@ async function signUpNewUser(email, password) {
 
 function Chatroom() {
     const [chatVal, setChatVal] = useState("")
+    const [messages, setMessages] = useState([])
+
+    useEffect(() => {
+        getMessages().then(r => console.log("r", r))
+    }, [])
     const sendMessage = async (e) => {
         if (chatVal !== ""){
             e.preventDefault()
@@ -75,14 +80,19 @@ function Chatroom() {
             setChatVal("")
         }
     }
-    console.log(user.data.user)
-    /*const getMessages = async () => {
-        supabase.from("messages").select("content").then((res) => {console.log(res)})
-    }*/
+    const getMessages = async () => {
+        const { data, error } = await supabase.from("messages").select("*")
+        setMessages(data)
+        console.log("data is: ", data, "error", error)
+    }
+    // eslint-disable-next-line array-callback-return
+    messages.map((message) => {setMessages(message)})
+    setInterval(getMessages, 5000)
+
     return (
         <div>
-            <h1>Chatroom</h1>
-            <p></p>
+            <h1>Chatroom {messages}</h1>
+            <h1>message</h1>
             <input onChange={(e) => setChatVal(e.target.value)} value={chatVal}/>
             <button onClick={sendMessage}>send</button>
             <button onClick={() => signOutUser()}>sign out</button>
