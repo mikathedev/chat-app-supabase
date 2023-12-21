@@ -43,7 +43,7 @@ async function signInWithEmail(email, pass) {
     })
     console.log("data", data, "error", error)
     // eslint-disable-next-line no-restricted-globals
-    location.reload()
+    //location.reload()
 }
 
 async function signUpNewUser(email, password) {
@@ -55,7 +55,7 @@ async function signUpNewUser(email, password) {
         }
     });
     // eslint-disable-next-line no-restricted-globals
-    location.reload()
+    //location.reload()
 
     console.log("data", data, "error", error)
 }
@@ -105,7 +105,7 @@ async function signOutUser() {
     const { error } = await supabase.auth.signOut()
     console.log("error", error)
     // eslint-disable-next-line no-restricted-globals
-    location.reload()
+//    location.reload()
 }
 
 export default App;
