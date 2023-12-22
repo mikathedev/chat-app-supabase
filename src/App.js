@@ -40,7 +40,7 @@ async function signInWithEmail(email, pass) {
     const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: pass
-    })
+    }).then(r => {console.log("r", r)})
     console.log("data", data, "error", error)
     // eslint-disable-next-line no-restricted-globals
     //location.reload()
@@ -81,9 +81,11 @@ function Chatroom() {
         }
     }
     const getMessages = async () => {
-        const { data, error } = await supabase.from("messages").select("*")
-        setMessages(data)
-        console.log("data is: ", data, "error", error)
+        await supabase.from("messages").select("*").then(r => {
+                console.log("r", r)
+                setMessages(r)
+            })
+
     }
     // eslint-disable-next-line array-callback-return
     messages.map((message) => {setMessages(message)})
