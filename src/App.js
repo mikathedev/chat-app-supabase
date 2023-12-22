@@ -6,6 +6,9 @@ const supabaseUrl = 'https://wvpnvgvxtecukdoxmbad.supabase.co'
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2cG52Z3Z4dGVjdWtkb3htYmFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI4NDQ0NjcsImV4cCI6MjAxODQyMDQ2N30.JQuhGVAqT1OeSHJAbmECj5Q8iwTqJ4ebYEoeFdsNQb8"
 const supabase = createClient(supabaseUrl, supabaseKey)
 const user = await supabase.auth.getUser()
+const { data } = await supabase
+    .from('messages')
+    .select()
 function App() {
   return (
       <section>
@@ -82,7 +85,11 @@ function Chatroom() {
     return (
         <div>
             <h1>Chatroom</h1>
-            <p></p>
+            <ul>
+                {data.map((row) => (
+                    <li key={row.id}>{row.column1}, {row.column2}</li>
+                ))}
+            </ul>
             <input onChange={(e) => setChatVal(e.target.value)} value={chatVal}/>
             <button onClick={sendMessage}>send</button>
             <button onClick={() => signOutUser()}>sign out</button>
